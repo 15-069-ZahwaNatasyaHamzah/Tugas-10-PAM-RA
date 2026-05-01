@@ -1,21 +1,19 @@
-# NoteApp - Tugas 7 PAM
+# NoteApp - Tugas 8 PAM (Platform Features & DI)
 
-A modern, cross-platform Note-Taking application built with **Compose Multiplatform**, targeting Android, iOS, Desktop, and Web. This app demonstrates the usage of **SQLDelight** for local persistence and **Kotlin Multiplatform** for sharing logic across platforms.
+A modern, cross-platform Note-Taking application built with **Compose Multiplatform**, upgraded with Dependency Injection and Platform-specific features.
 
-## 🚀 Features
+## 🚀 Upgrade Features (Task 8)
 
--   **Create, Read, Update, and Delete (CRUD) Notes**: Easily manage your daily thoughts.
--   **Search Functionality**: Quickly find notes by title or content.
--   **Favorites System**: Mark important notes as favorites for quick access.
--   **Dark Mode Support**: Seamlessly toggle between light and dark themes.
--   **Multiplatform**: Shared business logic and UI across Android, iOS, Desktop, and Web.
--   **Dependency Injection**: Powered by **Koin** for clean and maintainable code.
--   **Platform Features**: Access to platform-specific information (Device Name, OS Version) and Network Status monitoring.
--   **Modern UI**: Built using Material 3 components with a clean and intuitive design.
+1.  **Koin Dependency Injection**: Full app migration to Koin DI. All components (Repository, ViewModels, Platform Services) are now managed and injected through Koin.
+2.  **Platform DeviceInfo**: Implementation of `DeviceInfo` using `expect`/`actual` to retrieve device name, OS, and version across Android, iOS, JVM, and Web.
+3.  **Real-time NetworkMonitor**: Implementation of `NetworkMonitor` using `expect`/`actual` to track internet connectivity status.
+4.  **Settings Integration**: Device information is dynamically displayed on the Profile/Settings screen.
+5.  **Network Status Indicator**: A prominent "Offline Mode" indicator appears on the main screen when the device loses connection.
+6.  **Koin-injected ViewModels**: ViewModels are provided using `koinViewModel()` from the `io.insert-koin:koin-compose-viewmodel` library.
 
-## 🏗️ Architecture
+## 🏗️ Architecture Diagram
 
-The app follows a clean architecture pattern, leveraging Kotlin Multiplatform to share most of the logic.
+The application uses a Clean Architecture approach with Koin as the central Dependency Injection container.
 
 ```mermaid
 graph TD
@@ -50,53 +48,24 @@ graph TD
     Koin --> NetworkMonitor
 ```
 
-## 🛠️ Tech Stack
+## 📸 Screenshots
 
--   **UI Framework**: [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
--   **Dependency Injection**: [Koin](https://insert-koin.io/)
--   **Database**: [SQLDelight](https://cashapp.github.io/sqldelight/)
--   **Concurrency**: [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
--   **Date & Time**: [kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime)
--   **Navigation**: [Jetpack Navigation Compose](https://developer.android.com/jetpack/compose/navigation)
-
-## 📸 Screenshots & Demo
-
-| Device Info | Network Status Indicator |
+| Device Info (Settings) | Network Indicator (Offline) |
 | :---: | :---: |
 | ![Device Info](screenshots/device_info.png) | ![Network Indicator](screenshots/network_indicator.png) |
 
-> **Note**: Demo video showing DI, device info, and network status transitions can be found [here](video/demo.mp4).
-
-## 📊 Database Schema
-
-The application uses **SQLDelight** for local database management. Below is the schema for the `NoteEntity` table:
-
-```sql
-CREATE TABLE NoteEntity (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    content TEXT NOT NULL,
-    isFavorite INTEGER NOT NULL DEFAULT 0,
-    createdAt INTEGER NOT NULL
-);
-```
-
-### Queries included:
-- `getAllNotes`: Fetch all notes ordered by creation time.
-- `getFavoriteNotes`: Fetch only notes marked as favorite.
-- `searchNotes`: Search notes by title or content matching a query.
-- `insertNote`: Add a new note or update an existing one.
-- `deleteNote`: Remove a note by its ID.
-
-## 📸 Screenshots
-
-*(Note: Please ensure your screenshot images are placed in a folder named `screenshots` in the root directory for the links below to work on GitHub)*
-
-| Notes List | Edit Note | Profile |
-| :---: | :---: | :---: |
-| ![Notes List](screenshots/notes_list.png) | ![Edit Note](screenshots/edit_note.png) | ![Profile](screenshots/profile.png) |
+## 🎥 Video Demo
+A 45-second demo video showing Koin DI initialization, Device Info display, and real-time Network Status (On/Off) transitions can be found here:
+**[Link to Video Demo](video/demo.mp4)**
 
 ---
+
+## 🛠️ Tech Stack
+
+-   **UI Framework**: [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
+-   **Dependency Injection**: [Koin 4.0.0](https://insert-koin.io/)
+-   **Database**: [SQLDelight](https://cashapp.github.io/sqldelight/)
+-   **Navigation**: [Jetpack Navigation Compose](https://developer.android.com/jetpack/compose/navigation)
 
 ## 🏗️ Getting Started
 
@@ -106,5 +75,5 @@ CREATE TABLE NoteEntity (
 
 ### Running the App
 - **Android**: Select `composeApp` and run on an emulator or device.
-- **Desktop**: Run the `./gradlew :composeApp:run` command.
-- **Web**: Run the `./gradlew :composeApp:jsBrowserDevelopmentRun` command.
+- **Desktop**: Run `./gradlew :composeApp:run`.
+- **Web**: Run `./gradlew :composeApp:jsBrowserDevelopmentRun`.
