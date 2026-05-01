@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
@@ -40,112 +41,123 @@ fun App() {
         val navController = rememberNavController()
 
         AppTheme(darkTheme = profileState.isDarkMode) {
-            Scaffold(
-                topBar = {
-                    if (!isOnline) {
-                        Surface(
-                            color = MaterialTheme.colorScheme.errorContainer,
-                            contentColor = MaterialTheme.colorScheme.onErrorContainer
+            Column(modifier = Modifier.fillMaxSize()) {
+                if (!isOnline) {
+                    Surface(
+                        color = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp, horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth().padding(4.dp),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(Icons.Default.WifiOff, null, modifier = Modifier.size(16.dp))
-                                Spacer(Modifier.width(8.dp))
-                                Text("Offline Mode", style = MaterialTheme.typography.labelSmall)
-                            }
-                        }
-                    }
-                },
-                bottomBar = {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
-                    
-                    val bottomBarScreens = listOf(Screen.Notes, Screen.Favorites, Screen.Profile)
-                    val showBottomBar = bottomBarScreens.any { it.route == currentDestination?.route }
-
-                    if (showBottomBar) {
-                        NavigationBar {
-                            bottomBarScreens.forEach { screen ->
-                                NavigationBarItem(
-                                    icon = { Icon(screen.icon, contentDescription = screen.label) },
-                                    label = { Text(screen.label) },
-                                    selected = currentDestination?.route == screen.route,
-                                    onClick = {
-                                        navController.navigate(screen.route) {
-                                            popUpTo(navController.graph.startDestinationId) {
-                                                saveState = true
-                                            }
-                                            launchSingleTop = true
-                                            restoreState = true
-                                        }
-                                    }
-                                )
-                            }
+                            Icon(
+                                imageVector = Icons.Default.WifiOff,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Text(
+                                text = "Offline Mode - Limited Connectivity",
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
                 }
-            ) { padding ->
-                NavHost(
-                    navController = navController,
-                    startDestination = Screen.Notes.route,
-                    modifier = Modifier.padding(padding)
-                ) {
-                    composable(Screen.Notes.route) {
-                        NotesScreen(
-                            viewModel = notesViewModel,
-                            onNoteClick = { id -> navController.navigate("note_detail/$id") },
-                            onAddNote = { navController.navigate("add_edit_note") }
-                        )
+
+                Scaffold(
+                    bottomBar = {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+                        
+                        val bottomBarScreens = listOf(Screen.Notes, Screen.Favorites, Screen.Profile)
+                        val showBottomBar = bottomBarScreens.any { it.route == currentDestination?.route }
+
+                        if (showBottomBar) {
+                            NavigationBar {
+                                bottomBarScreens.forEach { screen ->
+                                    NavigationBarItem(
+                                        icon = { Icon(screen.icon, contentDescription = screen.label) },
+                                        label = { Text(screen.label) },
+                                        selected = currentDestination?.route == screen.route,
+                                        onClick = {
+                                            navController.navigate(screen.route) {
+                                                popUpTo(navController.graph.startDestinationId) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
-                    composable(Screen.Favorites.route) {
-                        NotesScreen(
-                            viewModel = notesViewModel,
-                            onNoteClick = { id -> navController.navigate("note_detail/$id") },
-                            onAddNote = {},
-                            isFavoritesOnly = true
-                        )
-                    }
-                    composable(Screen.Profile.route) {
-                        ProfileScreen(
-                            viewModel = profileViewModel,
-                            onEditClick = { navController.navigate("edit_profile") }
-                        )
-                    }
-                    composable("edit_profile") {
-                        EditProfileScreen(
-                            viewModel = profileViewModel,
-                            onBack = { navController.popBackStack() }
-                        )
-                    }
-                    composable(
-                        "note_detail/{noteId}",
-                        arguments = listOf(navArgument("noteId") { type = NavType.LongType })
-                    ) { backStackEntry ->
-                        val noteId = backStackEntry.arguments?.getLong("noteId") ?: return@composable
-                        NoteDetailScreen(
-                            repository = repository,
-                            noteId = noteId,
-                            onEdit = { id -> navController.navigate("add_edit_note?noteId=$id") },
-                            onBack = { navController.popBackStack() }
-                        )
-                    }
-                    composable(
-                        "add_edit_note?noteId={noteId}",
-                        arguments = listOf(navArgument("noteId") { 
-                            type = NavType.LongType
-                            nullable = false
-                            defaultValue = -1L
-                        })
-                    ) { backStackEntry ->
-                        val noteId = backStackEntry.arguments?.getLong("noteId")?.takeIf { it != -1L }
-                        AddEditNoteScreen(
-                            repository = repository,
-                            noteId = noteId,
-                            onBack = { navController.popBackStack() }
-                        )
+                ) { padding ->
+                    NavHost(
+                        navController = navController,
+                        startDestination = Screen.Notes.route,
+                        modifier = Modifier.padding(padding)
+                    ) {
+                        composable(Screen.Notes.route) {
+                            NotesScreen(
+                                viewModel = notesViewModel,
+                                onNoteClick = { id -> navController.navigate("note_detail/$id") },
+                                onAddNote = { navController.navigate("add_edit_note") }
+                            )
+                        }
+                        composable(Screen.Favorites.route) {
+                            NotesScreen(
+                                viewModel = notesViewModel,
+                                onNoteClick = { id -> navController.navigate("note_detail/$id") },
+                                onAddNote = {},
+                                isFavoritesOnly = true
+                            )
+                        }
+                        composable(Screen.Profile.route) {
+                            ProfileScreen(
+                                viewModel = profileViewModel,
+                                onEditClick = { navController.navigate("edit_profile") }
+                            )
+                        }
+                        composable("edit_profile") {
+                            EditProfileScreen(
+                                viewModel = profileViewModel,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
+                        composable(
+                            "note_detail/{noteId}",
+                            arguments = listOf(navArgument("noteId") { type = NavType.LongType })
+                        ) { backStackEntry ->
+                            val noteId = backStackEntry.arguments?.getLong("noteId") ?: return@composable
+                            NoteDetailScreen(
+                                repository = repository,
+                                noteId = noteId,
+                                onEdit = { id -> navController.navigate("add_edit_note?noteId=$id") },
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
+                        composable(
+                            "add_edit_note?noteId={noteId}",
+                            arguments = listOf(navArgument("noteId") { 
+                                type = NavType.LongType
+                                nullable = false
+                                defaultValue = -1L
+                            })
+                        ) { backStackEntry ->
+                            val noteId = backStackEntry.arguments?.getLong("noteId")?.takeIf { it != -1L }
+                            AddEditNoteScreen(
+                                repository = repository,
+                                noteId = noteId,
+                                onBack = { navController.popBackStack() }
+                            )
+                        }
                     }
                 }
             }
