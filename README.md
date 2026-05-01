@@ -1,17 +1,29 @@
-# NoteApp - Tugas 8 PAM (Platform Features & DI)
+# NoteApp - Tugas 9 PAM (AI Integration)
 
-A modern, cross-platform Note-Taking application built with **Compose Multiplatform**, upgraded with Dependency Injection and Platform-specific features.
+A modern, cross-platform Note-Taking application built with **Compose Multiplatform**, now integrated with **Gemini AI** for smart note assistance.
 
-## 🚀 Upgrade Features (Task 8)
+## 🤖 AI Integration (Task 9)
 
-1.  **Koin Dependency Injection**: Full app migration to Koin DI. All components (Repository, ViewModels, Platform Services) are now managed and injected through Koin.
-2.  **Platform DeviceInfo**: Implementation of `DeviceInfo` using `expect`/`actual` to retrieve device name, OS, and version across Android, iOS, JVM, and Web.
-3.  **Real-time NetworkMonitor**: Implementation of `NetworkMonitor` using `expect`/`actual` to track internet connectivity status.
-4.  **Settings Integration**: Device information is dynamically displayed on the Profile/Settings screen.
-5.  **Network Status Indicator**: A prominent "Offline Mode" indicator appears on the main screen when the device loses connection.
-6.  **Koin-injected ViewModels**: ViewModels are provided using `koinViewModel()` from the `io.insert-koin:koin-compose-viewmodel` library.
+### Features:
+- **Smart Note Summarizer**: Automatically generate concise summaries for long notes using the Gemini 1.5 Flash model.
+- **Responsive UI**: Interactive "AI Insights" section with loading indicators and proper error handling.
+- **Koin DI Integration**: AI services and ViewModels are fully managed by Koin for efficient resource handling.
+- **Well-designed System Prompt**: The AI is instructed to act as a professional Note Assistant, ensuring high-quality and relevant summaries.
 
-## 🏗️ Architecture Diagram
+### Technical Implementation:
+- **API**: [Google Gemini API](https://ai.google.dev/) (Gemini 1.5 Flash).
+- **SDK**: `dev.shreyaspatil.generativeai:generativeai-google` (Kotlin Multiplatform fork of official SDK).
+- **Error Handling**: Graceful handling of network errors, empty content, and API limitations.
+
+## 📸 Screenshots & Demo
+
+| AI Summarizer (Loading) | AI Summary Result |
+| :---: | :---: |
+| ![AI Loading](screenshots/ai_loading.png) | ![AI Result](screenshots/ai_result.png) |
+
+> **Note**: Demo video showing AI summarization in action can be found [here](video/demo_ai.mp4).
+
+## 🏗️ Architecture Diagram (Updated)
 
 The application uses a Clean Architecture approach with Koin as the central Dependency Injection container.
 

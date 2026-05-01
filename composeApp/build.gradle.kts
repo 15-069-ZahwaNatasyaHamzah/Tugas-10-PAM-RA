@@ -67,6 +67,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation("dev.shreyaspatil.generativeai:generativeai-google:0.9.0-1.1.0")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

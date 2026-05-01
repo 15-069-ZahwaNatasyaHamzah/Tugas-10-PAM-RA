@@ -11,6 +11,10 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
+import org.example.project.ai.AiService
+import org.example.project.ai.GeminiAiService
+import org.example.project.ai.AiViewModel
+
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
@@ -29,8 +33,12 @@ val commonModule = module {
     
     single { getDeviceInfo() }
     
+    // AI Service - REPLACE WITH YOUR ACTUAL API KEY
+    single<AiService> { GeminiAiService(apiKey = "YOUR_GEMINI_API_KEY") }
+    
     factory { NotesViewModel(get()) }
     factory { ProfileViewModel(get()) }
+    factory { AiViewModel(get()) }
 }
 
 expect fun platformModule(): Module
