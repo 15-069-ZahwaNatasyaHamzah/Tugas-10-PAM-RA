@@ -32,6 +32,9 @@ class AndroidNetworkMonitor(context: Context) : NetworkMonitor {
         })
         
         // Initial state
-        _isOnline.value = connectivityManager.activeNetwork != null
+        val activeNetwork = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+        _isOnline.value = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED) == true
     }
 }

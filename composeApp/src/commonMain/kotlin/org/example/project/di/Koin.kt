@@ -33,8 +33,11 @@ val commonModule = module {
     
     single { getDeviceInfo() }
     
-    // AI Service - REPLACE WITH YOUR ACTUAL API KEY
-    single<AiService> { GeminiAiService(apiKey = "YOUR_GEMINI_API_KEY") }
+    // AI Service - REPLACE WITH YOUR ACTUAL API KEY FROM https://aistudio.google.com/
+    single<AiService> { 
+        val apiKey = "AIzaSyDIDd8xRL1r0IsXbsjJr8EeVa_6TflfM3Y"
+        GeminiAiService(apiKey = apiKey) 
+    }
     
     factory { NotesViewModel(get()) }
     factory { ProfileViewModel(get()) }
