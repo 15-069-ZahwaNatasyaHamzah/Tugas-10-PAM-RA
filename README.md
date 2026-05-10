@@ -43,6 +43,6 @@ Silakan masukkan hasil screenshot Anda ke dalam folder `screenshots/` dengan nam
 | 3 |Bukti "10 tests passed" dan "BUILD SUCCESSFUL" dan Implementasi Unit Test di `NoteRepositoryTest.kt` |<img width="1371" height="408" alt="WhatsApp Image 2026-05-11 at 02 07 52 (2)" src="https://github.com/user-attachments/assets/e4cd67c3-1d6e-47f0-b5f8-97c8daf3db3c" /> |
 
 ## Video Demo
-Video demo fitur aplikasi dapat diakses melalui tautan berikut :
+Video demo fitur aplikasi dapat diakses melalui tautan berikut : https://youtu.be/OR1EHmOwb4o
 
 ---
