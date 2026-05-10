@@ -43,12 +43,6 @@ kotlin {
     }
     
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.sqldelight.android.driver)
-            implementation(libs.koin.android)
-        }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -69,10 +63,28 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.generativeai)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-        
+
+        androidMain.dependencies {
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.sqldelight.android.driver)
+            implementation(libs.koin.android)
+        }
+
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.mockk)
+                implementation(libs.turbine)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.koin.test)
+                implementation(libs.robolectric)
+            }
+        }
+
         val commonMain by getting
         val nonWebMain by creating {
             dependsOn(commonMain)
@@ -99,15 +111,15 @@ kotlin {
             dependsOn(webMain)
         }
 
-    iosMain.dependencies {
-        implementation(libs.sqldelight.native.driver)
-    }
+        iosMain.dependencies {
+            implementation(libs.sqldelight.native.driver)
+        }
 
-    jvmMain.dependencies {
-        implementation(compose.desktop.currentOs)
-        implementation(libs.kotlinx.coroutinesSwing)
-        implementation(libs.sqldelight.sqlite.driver)
-    }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutinesSwing)
+            implementation(libs.sqldelight.sqlite.driver)
+        }
     }
 }
 
@@ -121,6 +133,8 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -140,11 +154,14 @@ android {
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 }
 
 compose.desktop {
     application {
-        mainClass = "org.example.project.MainKt"
+        mainClass = "org.example.project.main"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
