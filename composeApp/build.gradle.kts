@@ -157,6 +157,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.mockk)
 }
 
 compose.desktop {

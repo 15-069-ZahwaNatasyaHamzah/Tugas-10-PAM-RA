@@ -41,6 +41,40 @@ graph TD
 - **Dependency Injection**: Koin
 - **Database**: SQLDelight
 - **AI API**: Google Gemini AI Studio
+- **Testing**: MockK & Compose UI Test
+
+## 🔧 Troubleshooting: Fixing Unresolved Reference 'io'
+
+Jika Anda menemui error `Unresolved reference 'io'` saat menjalankan instrumented test (`androidTest`), berikut adalah langkah-langkah perbaikannya:
+
+### 1. Perbaikan Typo Import
+Pastikan di file `NotesScreenTest.kt` tidak ada kesalahan pengetikan pada import MockK.
+- **Salah**: `import us io.mockk.every`
+- **Benar**: `import io.mockk.every`
+
+### 2. Konfigurasi Dependencies
+Tambahkan `mockk` ke dalam blok `dependencies` di file `composeApp/build.gradle.kts` agar library tersedia untuk pengujian Android:
+
+```kotlin
+dependencies {
+    // ...
+    androidTestImplementation(libs.mockk)
+}
+```
+
+### 3. Verifikasi Build
+Jalankan perintah berikut di terminal untuk memastikan build berhasil:
+```bash
+./gradlew :composeApp:compileDebugAndroidTestKotlinAndroid
+```
+
+## 📸 Panduan Screenshot untuk Tugas
+Untuk melengkapi laporan, silakan ambil screenshot pada bagian-bagian berikut:
+
+1.  **Screenshot Code Fix**: Ambil gambar file `NotesScreenTest.kt` yang menunjukkan baris `import io.mockk.every` sudah benar (tanpa kata `us`).
+2.  **Screenshot Build.gradle**: Ambil gambar file `composeApp/build.gradle.kts` pada bagian `dependencies` yang menunjukkan adanya `androidTestImplementation(libs.mockk)`.
+3.  **Screenshot Terminal Sukses**: Jalankan perintah `./gradlew :composeApp:compileDebugAndroidTestKotlinAndroid` di terminal bawah Android Studio dan ambil gambar yang menunjukkan pesan **"BUILD SUCCESSFUL"**.
+4.  **Screenshot UI Test**: Jika memungkinkan, jalankan test tersebut (klik ikon play hijau di sebelah class `NotesScreenTest`) dan ambil gambar panel "Run" yang menunjukkan semua test berwarna hijau (Passed).
 
 ## 🚀 Cara Menjalankan Fitur AI
 1. Dapatkan API Key dari [Google AI Studio](https://aistudio.google.com/).
