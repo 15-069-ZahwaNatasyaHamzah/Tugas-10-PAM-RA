@@ -32,13 +32,16 @@ Selama pengerjaan, ditemukan error `Unresolved reference 'io'` yang telah diperb
 - **Testing Framework**: Compose UI Test & JUnit4
 - **Database**: SQLDelight (Backend)
 
-## 📸 Panduan Screenshot untuk Tugas 10
-Silakan ambil screenshot pada bagian berikut untuk laporan:
+## 📸 Dokumentasi Screenshot (Tugas 10)
 
-1.  **Screenshot Code Fix**: File `NotesScreenTest.kt` yang menunjukkan import MockK sudah benar.
-2.  **Screenshot Build.gradle**: File `composeApp/build.gradle.kts` bagian `dependencies` yang berisi `androidTestImplementation(libs.mockk)`.
-3.  **Screenshot Terminal Sukses**: Hasil perintah `./gradlew :composeApp:compileDebugAndroidTestKotlinAndroid` yang menunjukkan **"BUILD SUCCESSFUL"**.
-4.  **Screenshot Hasil Pengujian**: Panel **Run** di Android Studio yang menunjukkan semua test di `NotesScreenTest` berwarna hijau (Passed).
+Silakan masukkan hasil screenshot Anda ke dalam folder `screenshots/` dengan nama file yang sesuai agar muncul di tabel bawah ini:
+
+| No | Nama File (Rekomendasi) | Deskripsi Screenshot | Preview |
+|:--:|:---|:---|:--:|
+| 1 | `ss_code_fix.png` | Perbaikan typo import MockK di `NotesScreenTest.kt` | ![Fix](screenshots/ss_code_fix.png) |
+| 2 | `ss_build_gradle.png` | Penambahan dependency `mockk` di `build.gradle.kts` | ![Gradle](screenshots/ss_build_gradle.png) |
+| 3 | `ss_terminal_success.png` | Hasil `./gradlew` di terminal (BUILD SUCCESSFUL) | ![Terminal](screenshots/ss_terminal_success.png) |
+| 4 | `ss_test_results.png` | Panel Run Android Studio (Semua Test Passed/Hijau) | ![Test](screenshots/ss_test_results.png) |
 
 ---
 **Tugas 10 - Pengembangan Aplikasi Mobile**
