@@ -1,94 +1,45 @@
-# NoteApp - Tugas 9 PAM (AI Integration)
+# NoteApp - Tugas 10 PAM (Testing)
 
-A modern, cross-platform Note-Taking application built with **Compose Multiplatform**, now integrated with **Google Gemini AI** for smart note assistance.
+A modern, cross-platform Note-Taking application built with **Compose Multiplatform**, focused on implementing robust **Unit Testing** and **UI Testing** for the 10th assignment.
 
-## 🤖 AI Integration (Tugas 9)
+## 🧪 Testing Implementation (Tugas 10)
 
-Project ini telah mengintegrasikan fitur kecerdasan buatan menggunakan **Gemini AI** untuk membantu pengguna mengelola catatan mereka secara lebih efisien.
+Project ini difokuskan pada implementasi pengujian otomatis untuk memastikan kualitas kode dan fungsionalitas UI berjalan dengan baik.
 
-### Fitur Utama AI:
-- **Smart Note Summarizer**: Meringkas isi catatan yang panjang menjadi ringkasan singkat dalam Bahasa Indonesia hanya dengan satu klik.
-- **AI-Powered Title Suggestion**: Memberikan saran judul yang relevan berdasarkan isi konten catatan.
-- **Responsive UI**: Dilengkapi dengan loading indicators (progress bar) dan penanganan error yang intuitif.
+### Fitur Utama Pengujian:
+- **Unit Testing**: Menguji logika bisnis pada `NoteRepository` menggunakan **MockK** untuk memverifikasi penyimpanan dan pengambilan data.
+- **UI/Instrumented Testing**: Menguji komponen antarmuka pengguna pada `NotesScreen` menggunakan **Compose Test Rule** untuk memastikan elemen UI seperti judul, search bar, dan tombol tambah muncul dengan benar.
 
 ### Implementasi Teknis:
-- **Model**: `Gemini 1.5 Flash` (via Google AI Studio).
-- **SDK**: `dev.shreyaspatil.generativeai:generativeai-google` (Kotlin Multiplatform SDK).
-- **Error Handling**: Implementasi `runCatching` dengan logika **fallback** untuk memastikan aplikasi tidak crash jika koneksi API bermasalah.
-- **Prompt Engineering**: System prompt yang dirancang khusus untuk menghasilkan ringkasan dalam Bahasa Indonesia yang profesional namun mudah dipahami.
-
-## 🏗️ Architecture & DI
-Aplikasi ini menggunakan **Koin** untuk Dependency Injection, memisahkan logika AI ke dalam service layer yang bersih.
-
-```mermaid
-graph TD
-    subgraph "UI Layer"
-        UI[NoteDetailScreen] --> VM[AiViewModel]
-    end
-    subgraph "Logic Layer"
-        VM --> Service[AiService/GeminiAiService]
-        Service --> Gemini[Google Gemini API]
-    end
-    subgraph "DI (Koin)"
-        Koin --> Service
-        Koin --> VM
-    end
-```
-
-## 🛠️ Tech Stack
-- **UI Framework**: Compose Multiplatform
-- **Language**: Kotlin
-- **Dependency Injection**: Koin
-- **Database**: SQLDelight
-- **AI API**: Google Gemini AI Studio
-- **Testing**: MockK & Compose UI Test
+- **Framework Pengujian**: `androidx.compose.ui:ui-test-junit4` dan `io.mockk:mockk`.
+- **Mocking Strategy**: Menggunakan **MockK** untuk membuat repository palsu sehingga pengujian UI dapat berjalan secara terisolasi tanpa bergantung pada database asli.
+- **Test Scenarios**:
+    - Memverifikasi kemunculan teks utama "My Notes".
+    - Memverifikasi fungsi input pada kolom pencarian "Search notes...".
+    - Memverifikasi keberadaan Floating Action Button (FAB) dengan deskripsi konten "Add Note".
 
 ## 🔧 Troubleshooting: Fixing Unresolved Reference 'io'
 
-Jika Anda menemui error `Unresolved reference 'io'` saat menjalankan instrumented test (`androidTest`), berikut adalah langkah-langkah perbaikannya:
+Selama pengerjaan, ditemukan error `Unresolved reference 'io'` yang telah diperbaiki dengan langkah berikut:
 
-### 1. Perbaikan Typo Import
-Pastikan di file `NotesScreenTest.kt` tidak ada kesalahan pengetikan pada import MockK.
-- **Salah**: `import us io.mockk.every`
-- **Benar**: `import io.mockk.every`
+1.  **Perbaikan Typo Import**: Mengubah `import us io.mockk.every` menjadi `import io.mockk.every` di file `NotesScreenTest.kt`.
+2.  **Konfigurasi Dependencies**: Menambahkan `androidTestImplementation(libs.mockk)` ke dalam file `composeApp/build.gradle.kts` agar library MockK tersedia di lingkungan testing Android.
 
-### 2. Konfigurasi Dependencies
-Tambahkan `mockk` ke dalam blok `dependencies` di file `composeApp/build.gradle.kts` agar library tersedia untuk pengujian Android:
+## 🏗️ Tech Stack
+- **UI Framework**: Compose Multiplatform
+- **Language**: Kotlin
+- **Mocking Library**: MockK
+- **Testing Framework**: Compose UI Test & JUnit4
+- **Database**: SQLDelight (Backend)
 
-```kotlin
-dependencies {
-    // ...
-    androidTestImplementation(libs.mockk)
-}
-```
+## 📸 Panduan Screenshot untuk Tugas 10
+Silakan ambil screenshot pada bagian berikut untuk laporan:
 
-### 3. Verifikasi Build
-Jalankan perintah berikut di terminal untuk memastikan build berhasil:
-```bash
-./gradlew :composeApp:compileDebugAndroidTestKotlinAndroid
-```
-
-## 📸 Panduan Screenshot untuk Tugas
-Untuk melengkapi laporan, silakan ambil screenshot pada bagian-bagian berikut:
-
-1.  **Screenshot Code Fix**: Ambil gambar file `NotesScreenTest.kt` yang menunjukkan baris `import io.mockk.every` sudah benar (tanpa kata `us`).
-2.  **Screenshot Build.gradle**: Ambil gambar file `composeApp/build.gradle.kts` pada bagian `dependencies` yang menunjukkan adanya `androidTestImplementation(libs.mockk)`.
-3.  **Screenshot Terminal Sukses**: Jalankan perintah `./gradlew :composeApp:compileDebugAndroidTestKotlinAndroid` di terminal bawah Android Studio dan ambil gambar yang menunjukkan pesan **"BUILD SUCCESSFUL"**.
-4.  **Screenshot UI Test**: Jika memungkinkan, jalankan test tersebut (klik ikon play hijau di sebelah class `NotesScreenTest`) dan ambil gambar panel "Run" yang menunjukkan semua test berwarna hijau (Passed).
-
-## 🚀 Cara Menjalankan Fitur AI
-1. Dapatkan API Key dari [Google AI Studio](https://aistudio.google.com/).
-2. Masukkan API Key di file `composeApp/src/commonMain/kotlin/org/example/project/di/Koin.kt`.
-3. Jalankan aplikasi pada Android Emulator atau Desktop.
-4. Buka salah satu catatan dan klik tombol **"Summarize Note"** di bagian bawah.
-
-## 📸 Screenshots
-*(Pastikan file gambar tersedia di folder screenshots/)*
-
-| Dashboard Notes | AI Summarizer |
-| :---: | :---: |
-| ![Notes List](screenshots/notes_list.png) | ![AI Result](screenshots/ai_result.png) |
+1.  **Screenshot Code Fix**: File `NotesScreenTest.kt` yang menunjukkan import MockK sudah benar.
+2.  **Screenshot Build.gradle**: File `composeApp/build.gradle.kts` bagian `dependencies` yang berisi `androidTestImplementation(libs.mockk)`.
+3.  **Screenshot Terminal Sukses**: Hasil perintah `./gradlew :composeApp:compileDebugAndroidTestKotlinAndroid` yang menunjukkan **"BUILD SUCCESSFUL"**.
+4.  **Screenshot Hasil Pengujian**: Panel **Run** di Android Studio yang menunjukkan semua test di `NotesScreenTest` berwarna hijau (Passed).
 
 ---
-**Tugas 9 - Pengembangan Aplikasi Mobile**
+**Tugas 10 - Pengembangan Aplikasi Mobile**
 **Oleh: Jihwi (NoteApp Project)**
