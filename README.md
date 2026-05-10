@@ -40,8 +40,8 @@ Silakan masukkan hasil screenshot Anda ke dalam folder `screenshots/` dengan nam
 |:--:|:---|:---|:--:|
 | 1 | `ss_code_fix.png` | Perbaikan typo import MockK di `NotesScreenTest.kt` | ![Fix](screenshots/ss_code_fix.png) |
 | 2 | `ss_build_gradle.png` | Penambahan dependency `mockk` di `build.gradle.kts` | ![Gradle](screenshots/ss_build_gradle.png) |
-| 3 | `ss_terminal_success.png` | Hasil `./gradlew` di terminal (BUILD SUCCESSFUL) | ![Terminal](screenshots/ss_terminal_success.png) |
-| 4 | `ss_test_results.png` | Panel Run Android Studio (Semua Test Passed/Hijau) | ![Test](screenshots/ss_test_results.png) |
+| 3 | `ss_test_results.png` | Bukti "10 tests passed" dan "BUILD SUCCESSFUL" | ![Results](screenshots/ss_test_results.png) |
+| 4 | `ss_unit_test.png` | Implementasi Unit Test di `NoteRepositoryTest.kt` | ![Unit Test](screenshots/ss_unit_test.png) |
 
 ---
 **Tugas 10 - Pengembangan Aplikasi Mobile**
